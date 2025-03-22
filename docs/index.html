@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asociación TORREMAL</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <h1>Asociación TORREMAL</h1>
+    </header>
+
+    <!-- Menú desplegable -->
+    <nav>
+        <ul>
+            <li><a href="#quienes-somos">Quiénes somos</a>
+                <ul>
+                    <li><a href="#junta-directiva">Junta Directiva</a></li>
+                    <li><a href="#descripcion">Descripción</a></li>
+                </ul>
+            </li>
+            <li><a href="#eventos">Eventos</a></li>
+            <li><a href="#peregrinaciones">Peregrinaciones</a></li>
+            <li><a href="#registro">Registro</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección Quiénes somos -->
+    <section id="quienes-somos">
+        <h2>Quiénes somos</h2>
+        <div id="junta-directiva">
+            <h3>Junta Directiva</h3>
+            <ul>
+                <li>Presidente: José Belinchón</li>
+                <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
+                <li>Tesorero: Juan Sebastián</li>
+                <li>Secretario: Fernando Ramos</li>
+                <li>Vocal 1ª: Pilar Prados</li>
+            </ul>
+        </div>
+        <div id="descripcion">
+            <h3>Descripción</h3>
+            <p>Somos una asociación sin ánimo de lucro cuyo objetivo es aumentar la devoción a la Virgen de los Ángeles...</p>
+        </div>
+    </section>
+
+    <!-- Sección Eventos -->
+    <section id="eventos">
+        <h2>Eventos</h2>
+        <div id="calendario"></div>
+    </section>
+
+    <!-- Sección Peregrinaciones -->
+    <section id="peregrinaciones">
+        <h2>Peregrinaciones</h2>
+        <p>Información sobre nuestras peregrinaciones.</p>
+    </section>
+
+    <!-- Sección Registro -->
+    <section id="registro">
+        <h2>Registro</h2>
+        <form action="" method="POST">
+            <label for="nombre">Nombre Completo:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni" name="dni" required>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required>
+            <button type="submit">Registrarse</button>
+        </form>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <form>
+            <label for="mensaje">Tu mensaje:</label>
+            <textarea id="mensaje" name="mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!-- Imagen de la Virgen -->
+    <section id="virgen">
+        <h2>Virgen de los Ángeles</h2>
+        <img src="assets/images/virgen.jpg" alt="Virgen de los Ángeles">
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Asociación TORREMAL. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendario');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                { title: 'Evento Ejemplo', start: '2025-04-10' }
+            ]
+        });
+        calendar.render();
+    });
+    </script>
+</body>
+</html>
 

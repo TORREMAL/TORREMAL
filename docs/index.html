@@ -1,259 +1,282 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asociación Amigos de Torreciudad en Málaga</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet" />
-    <style>
-        body {
-            margin: 0;
-            background-color: #1d1d1d;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asociación Amigos de Torreciudad en Málaga</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background-color: #1d1d1d;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
 
-        header {
-            background-color: #1d1d1d;
-            padding: 20px;
-            text-align: center;
-        }
+    header {
+      background-color: #1d1d1d;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
 
-        nav {
-            background-color: #e37222;
-            padding: 10px 0;
-        }
+    header img {
+      height: 50px;
+    }
 
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      text-align: center;
+    }
 
-        nav ul li {
-            position: relative;
-        }
+    nav {
+      background-color: #e37222;
+      padding: 10px 0;
+    }
 
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: block;
-        }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-        nav ul li ul {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #e37222;
-            min-width: 200px;
-        }
+    nav ul li {
+      position: relative;
+    }
 
-        nav ul li:hover ul {
-            display: block;
-        }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+    }
 
-        nav ul li ul li a {
-            padding: 10px;
-        }
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #e37222;
+      min-width: 200px;
+    }
 
-        .carousel-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
+    nav ul li:hover ul {
+      display: block;
+    }
 
-        .carousel {
-            flex: 1 1 500px;
-            max-width: 600px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
+    nav ul li ul li a {
+      padding: 10px;
+    }
 
-        .carousel img {
-            width: 100%;
-            height: auto;
-            display: none;
-            transition: opacity 0.5s ease-in-out;
-        }
+    .carousel-container {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      padding: 20px;
+    }
 
-        .carousel img.active {
-            display: block;
-        }
+    .carousel, #calendario {
+      flex: 1;
+      max-width: 50%;
+      box-sizing: border-box;
+    }
 
-        #calendario {
-            flex: 1 1 300px;
-            background: #f4f4f4;
-            color: black;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            min-width: 280px;
-        }
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
 
-        section {
-            display: none;
-            padding: 40px 20px;
-        }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: none;
+      transition: opacity 0.5s ease-in-out;
+    }
 
-        section.active-section {
-            display: block;
-        }
+    .carousel img.active {
+      display: block;
+    }
 
-        footer {
-            background-color: #1d1d1d;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+    #calendario {
+      background: #f4f4f4;
+      color: black;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-        @media screen and (max-width: 768px) {
-            .carousel-container {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #2d2d2d;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      z-index: 1000;
+      width: 90%;
+      max-width: 600px;
+      color: white;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    @media screen and (max-width: 768px) {
+      .carousel-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .carousel, #calendario {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Asociación TORREMAL</h1>
-    </header>
+  <header>
+    <img src="assets/images/logo-torreciudad.png" alt="Logo Torreciudad">
+    <h1>ASOCIACIÓN AMIGOS DE TORRECIUDAD EN MÁLAGA</h1>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="#quienes-somos">Quiénes somos</a>
-                <ul>
-                    <li><a href="#junta-directiva">Junta Directiva</a></li>
-                    <li><a href="#descripcion">Descripción</a></li>
-                </ul>
-            </li>
-            <li><a href="#eventos">Eventos</a></li>
-            <li><a href="#peregrinaciones">Peregrinaciones</a></li>
-            <li><a href="#registro">Registro</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#" onclick="openModal('modal-quienes')">Quiénes somos</a></li>
+      <li><a href="#" onclick="openModal('modal-eventos')">Eventos</a></li>
+      <li><a href="#" onclick="openModal('modal-peregrinaciones')">Peregrinaciones</a></li>
+      <li><a href="#" onclick="openModal('modal-registro')">Registro</a></li>
+      <li><a href="#" onclick="openModal('modal-contacto')">Contacto</a></li>
+    </ul>
+  </nav>
 
-    <div class="carousel-container">
-        <div class="carousel">
-            <img src="assets/images/slide1.jpg" class="active" alt="Imagen 1">
-            <img src="assets/images/slide2.jpg" alt="Imagen 2">
-            <img src="assets/images/slide3.jpg" alt="Imagen 3">
-            <img src="assets/images/slide4.jpg" alt="Imagen 4">
-            <img src="assets/images/slide5.jpg" alt="Imagen 5">
-        </div>
-        <div id="calendario">
-            <h3>Calendario de Eventos</h3>
-        </div>
+  <div class="carousel-container">
+    <div class="carousel">
+      <img src="assets/images/slide1.jpeg" class="active" alt="Imagen 1">
+      <img src="assets/images/slide2.jpeg" alt="Imagen 2">
+      <img src="assets/images/slide3.jpeg" alt="Imagen 3">
+      <img src="assets/images/slide4.jpeg" alt="Imagen 4">
+      <img src="assets/images/slide5.jpeg" alt="Imagen 5">
     </div>
+    <div id="calendario">
+      <h3>Calendario de Eventos</h3>
+    </div>
+  </div>
 
-    <!-- Secciones ocultas por defecto -->
-    <section id="quienes-somos">
-        <h2>Quiénes somos</h2>
-        <div id="junta-directiva">
-            <h3>Junta Directiva</h3>
-            <ul>
-                <li>Presidente: Juan Pérez</li>
-                <li>Vicepresidente: María García</li>
-                <li>Tesorero: Luis Martínez</li>
-                <li>Secretario: Ana López</li>
-                <li>Vocal 1ª: Javier Ruiz</li>
-                <li>Vocal 2ª: Carmen Sánchez</li>
-                <li>Vocal 3ª: Fernando Torres</li>
-                <li>Vocal 4ª: Beatriz López</li>
-            </ul>
-        </div>
-        <div id="descripcion">
-            <h3>Descripción</h3>
-            <p>Somos una asociación sin ánimo de lucro cuyo objetivo es aumentar la devoción a la Virgen de los Ángeles...</p>
-        </div>
-    </section>
+  <div class="overlay" id="overlay" onclick="closeModal()"></div>
 
-    <section id="eventos">
-        <h2>Eventos</h2>
-        <p>Próximos eventos y actividades programadas.</p>
-    </section>
+  <div class="modal" id="modal-quienes">
+    <h2>Quiénes somos</h2>
+    <p>Somos una asociación sin ánimo de lucro que fomenta la devoción a la Virgen de los Ángeles, organizando eventos y peregrinaciones al Santuario de Torreciudad.</p>
+  </div>
 
-    <section id="peregrinaciones">
-        <h2>Peregrinaciones</h2>
-        <p>Información sobre nuestras peregrinaciones.</p>
-    </section>
+  <div class="modal" id="modal-eventos">
+    <h2>Eventos</h2>
+    <p>Calendario de actividades y encuentros anuales organizados por la asociación.</p>
+  </div>
 
-    <section id="registro">
-        <h2>Registro</h2>
-        <form action="" method="POST">
-            <label for="nombre">Nombre Completo:</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="dni">DNI:</label>
-            <input type="text" id="dni" name="dni" required>
-            <label for="correo">Correo Electrónico:</label>
-            <input type="email" id="correo" name="correo" required>
-            <button type="submit">Registrarse</button>
-        </form>
-    </section>
+  <div class="modal" id="modal-peregrinaciones">
+    <h2>Peregrinaciones</h2>
+    <p>Nuestras principales peregrinaciones al Santuario de Torreciudad, organizadas por años y con materiales visuales disponibles.</p>
+  </div>
 
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <form>
-            <label for="mensaje">Tu mensaje:</label>
-            <textarea id="mensaje" name="mensaje" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-    </section>
+  <div class="modal" id="modal-registro">
+    <h2>Registro de Nuevos Socios</h2>
+    <form>
+      <label>DNI:</label><input type="text" required><br>
+      <label>Nombre completo:</label><input type="text" required><br>
+      <label>Fecha de nacimiento:</label><input type="date" required><br>
+      <label>Estado civil:</label><input type="text" required><br>
+      <label>Profesión:</label><input type="text" required><br>
+      <label>Dirección fiscal:</label><input type="text" required><br>
+      <label>Correo electrónico:</label><input type="email" required><br>
+      <label>Teléfono:</label><input type="tel" required><br><br>
+      <a href="https://torreciudad.org/amigos-de-torreciudad/" target="_blank">
+        <button type="button">Aportación</button>
+      </a>
+    </form>
+  </div>
 
-    <footer>
-        <p>&copy; 2025 Asociación TORREMAL. Todos los derechos reservados.</p>
-    </footer>
+  <div class="modal" id="modal-contacto">
+    <h2>Contacto</h2>
+    <form action="mailto:torremal@protonmail.com" method="POST" enctype="text/plain">
+      <label>Motivo de la consulta:</label>
+      <select name="motivo" required>
+        <option value="eventos">Eventos</option>
+        <option value="peregrinaciones">Peregrinaciones</option>
+        <option value="aportaciones">Aportaciones</option>
+        <option value="otro">Otro motivo</option>
+      </select><br><br>
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarEl = document.getElementById('calendario');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: [
-                    { title: 'Evento Ejemplo', start: '2025-04-10' }
-                ]
-            });
-            calendar.render();
+      <label>Descripción de la consulta:</label><br>
+      <textarea name="descripcion" rows="4" cols="50" required></textarea><br><br>
 
-            // Carrusel de imágenes
-            let slides = document.querySelectorAll(".carousel img");
-            let index = 0;
-            setInterval(() => {
-                slides[index].classList.remove("active");
-                index = (index + 1) % slides.length;
-                slides[index].classList.add("active");
-            }, 3000);
+      <label>Nombre:</label><input type="text" name="nombre" required><br>
+      <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
 
-            // Mostrar secciones al hacer clic en el menú
-            const links = document.querySelectorAll('nav a[href^="#"]');
-            const sections = document.querySelectorAll('section');
+      <button type="submit">Enviar consulta</button>
+    </form>
+  </div>
 
-            links.forEach(link => {
-                link.addEventListener('click', e => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
-                    sections.forEach(sec => {
-                        sec.classList.remove('active-section');
-                        if (sec.id === targetId) {
-                            sec.classList.add('active-section');
-                        }
-                    });
-                    window.scrollTo({ top: document.getElementById(targetId).offsetTop - 100, behavior: 'smooth' });
-                });
-            });
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calendarEl = document.getElementById('calendario');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+          { title: 'Evento Ejemplo', start: '2025-04-10' }
+        ]
+      });
+      calendar.render();
+
+      let slides = document.querySelectorAll(".carousel img");
+      let index = 0;
+      setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+      }, 3000);
+    });
+
+    function openModal(id) {
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+      document.getElementById('overlay').classList.remove('active');
+    }
+  </script>
 </body>
 </html>

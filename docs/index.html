@@ -3,20 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asociación TORREMAL</title>
+    <title>Asociación Amigos de Torreciudad en Málaga</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet" />
     <style>
-        /* Estilo del carrusel */
+        body {
+            margin: 0;
+            background-color: #1d1d1d;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #1d1d1d;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #e37222;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #e37222;
+            min-width: 200px;
+        }
+
+        nav ul li:hover ul {
+            display: block;
+        }
+
+        nav ul li ul li a {
+            padding: 10px;
+        }
+
         .carousel-container {
             display: flex;
-            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
-            margin: 20px;
+            padding: 20px;
         }
 
         .carousel {
-            flex: 2;
+            flex: 1 1 500px;
             max-width: 600px;
             position: relative;
             overflow: hidden;
@@ -28,6 +83,7 @@
             width: 100%;
             height: auto;
             display: none;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .carousel img.active {
@@ -35,20 +91,44 @@
         }
 
         #calendario {
-            flex: 1;
+            flex: 1 1 300px;
             background: #f4f4f4;
-            padding: 10px;
+            color: black;
+            padding: 15px;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-width: 280px;
+        }
+
+        section {
+            display: none;
+            padding: 40px 20px;
+        }
+
+        section.active-section {
+            display: block;
+        }
+
+        footer {
+            background-color: #1d1d1d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .carousel-container {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Encabezado -->
     <header>
         <h1>Asociación TORREMAL</h1>
     </header>
 
-    <!-- Menú desplegable -->
     <nav>
         <ul>
             <li><a href="#quienes-somos">Quiénes somos</a>
@@ -64,7 +144,6 @@
         </ul>
     </nav>
 
-    <!-- Carrusel e calendario lado a lado -->
     <div class="carousel-container">
         <div class="carousel">
             <img src="assets/images/slide1.jpg" class="active" alt="Imagen 1">
@@ -78,18 +157,20 @@
         </div>
     </div>
 
-    <!-- Sección Quiénes somos -->
+    <!-- Secciones ocultas por defecto -->
     <section id="quienes-somos">
         <h2>Quiénes somos</h2>
         <div id="junta-directiva">
             <h3>Junta Directiva</h3>
             <ul>
-                <li>Presidente: José Belinchón</li>
-                <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
-                <li>Tesorero: Juan Sebastián</li>
-                <li>Secretario: Fernando Ramos</li>
-                <li>Vocal 1ª: Pilar Prados</li>
-                <li>Vocal 2ª: Guadalupe Hermoso Mesa</li>
+                <li>Presidente: Juan Pérez</li>
+                <li>Vicepresidente: María García</li>
+                <li>Tesorero: Luis Martínez</li>
+                <li>Secretario: Ana López</li>
+                <li>Vocal 1ª: Javier Ruiz</li>
+                <li>Vocal 2ª: Carmen Sánchez</li>
+                <li>Vocal 3ª: Fernando Torres</li>
+                <li>Vocal 4ª: Beatriz López</li>
             </ul>
         </div>
         <div id="descripcion">
@@ -98,19 +179,16 @@
         </div>
     </section>
 
-    <!-- Sección Eventos -->
     <section id="eventos">
         <h2>Eventos</h2>
-        <!-- El calendario ya está arriba junto al carrusel -->
+        <p>Próximos eventos y actividades programadas.</p>
     </section>
 
-    <!-- Sección Peregrinaciones -->
     <section id="peregrinaciones">
         <h2>Peregrinaciones</h2>
         <p>Información sobre nuestras peregrinaciones.</p>
     </section>
 
-    <!-- Sección Registro -->
     <section id="registro">
         <h2>Registro</h2>
         <form action="" method="POST">
@@ -124,7 +202,6 @@
         </form>
     </section>
 
-    <!-- Sección Contacto -->
     <section id="contacto">
         <h2>Contacto</h2>
         <form>
@@ -134,12 +211,6 @@
         </form>
     </section>
 
-    <!-- Imagen de la Virgen -->
-    <section id="virgen">
-        <h2>Virgen de los Ángeles</h2>
-        <img src="assets/images/virgen.jpg" alt="Virgen de los Ángeles">
-    </section>
-
     <footer>
         <p>&copy; 2025 Asociación TORREMAL. Todos los derechos reservados.</p>
     </footer>
@@ -147,8 +218,8 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendario');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            const calendarEl = document.getElementById('calendario');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: [
                     { title: 'Evento Ejemplo', start: '2025-04-10' }
@@ -159,12 +230,29 @@
             // Carrusel de imágenes
             let slides = document.querySelectorAll(".carousel img");
             let index = 0;
-
             setInterval(() => {
                 slides[index].classList.remove("active");
                 index = (index + 1) % slides.length;
                 slides[index].classList.add("active");
             }, 3000);
+
+            // Mostrar secciones al hacer clic en el menú
+            const links = document.querySelectorAll('nav a[href^="#"]');
+            const sections = document.querySelectorAll('section');
+
+            links.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    sections.forEach(sec => {
+                        sec.classList.remove('active-section');
+                        if (sec.id === targetId) {
+                            sec.classList.add('active-section');
+                        }
+                    });
+                    window.scrollTo({ top: document.getElementById(targetId).offsetTop - 100, behavior: 'smooth' });
+                });
+            });
         });
     </script>
 </body>

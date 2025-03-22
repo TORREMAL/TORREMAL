@@ -1,1 +1,33 @@
-body { font-family: Arial, sans-serif; }
+/* Carrusel */
+.carousel-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin: 20px;
+}
+
+.carousel {
+    flex: 2;
+    max-width: 600px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.carousel img {
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+.carousel img.active {
+    display: block;
+}
+
+#calendario {
+    flex: 1;
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 10px;
+}

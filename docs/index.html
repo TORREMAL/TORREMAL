@@ -158,10 +158,24 @@
       color: white;
     }
     @media screen and (max-width: 768px) {
-      .carousel-container {
-        flex-direction: column;
-        align-items: center;
-      }
+  .carousel-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .carousel, #calendario {
+    max-width: 100%;
+  }
+  .carousel {
+    height: auto;
+  }
+  .noticias-carousel {
+    height: 200px !important;
+  }
+  .carousel-container > div {
+    max-width: 100% !important;
+    flex: 1 1 100%;
+  }
+}
       .carousel, #calendario {
         max-width: 100%;
       }
@@ -185,13 +199,25 @@
 </nav>
 
 <div class="carousel-container">
-  <div class="carousel">
+  <div class="carousel" style="flex: 1; max-width: 50%;">
     <img src="assets/images/slide1.jpeg" class="active" alt="Imagen 1">
     <img src="assets/images/slide2.jpeg" alt="Imagen 2">
     <img src="assets/images/slide3.jpeg" alt="Imagen 3">
     <img src="assets/images/slide4.jpeg" alt="Imagen 4">
     <img src="assets/images/slide5.jpeg" alt="Imagen 5">
   </div>
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+    <div style="text-align: center; margin-bottom: 10px;">
+      <button onclick="openModal('modal-calendario')" style="padding: 10px 20px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">📅 Ver Calendario de Eventos</button>
+    </div>
+    <div id="noticias" style="flex: 1; background: #2d2d2d; padding: 10px; border-radius: 10px; overflow: hidden; max-height: 200px;">
+      <h2 style="color: #e37222; text-align: center; margin-bottom: 10px; font-size: 18px;">📰 Noticias</h2>
+      <div class="noticias-carousel" style="position: relative; height: 150px; border-radius: 10px; overflow: hidden; cursor: pointer;" onclick="openNoticiaModal()">
+        <img src="assets/noticias/peregrinos.jpg" alt="Peregrinación de jóvenes a Torreciudad" class="noticia active" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 1s ease-in-out; border-radius: 10px;">
+      </div>
+    </div>
+  </div>
+</div>
   <div style="display: flex; flex-direction: column; width: 100%;">
   <div style="text-align: center; margin-top: 10px;">
   <button onclick="openModal('modal-calendario')" style="padding: 10px 20px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">📅 Ver Calendario de Eventos</button>
@@ -230,7 +256,7 @@
   <h2 style="color: #e37222;">Eventos 2025</h2>
   <h3 style="color: #e37222; font-size: 20px;">Mayo</h3>
   <ul>
-    <li><a href="#" onclick="openModal('evento-presentacion')">Jueves 8 - <em style="color: white;">"Presentación de la Asociación TORREMAL"</em></a></li>
+    <li><a href="#" onclick="openModal('evento-$1')"><span style="color: white;">$1</span> - <em style="color: white;">"Presentación de la Asociación TORREMAL"</em></a></li>
     <li><a href="#" onclick="openModal('evento-torreciudad')">Jueves 15 - <em style="color: white;">"Encuentro en Torreciudad"</em></a></li>
   </ul>
   <h3 style="color: #e37222; font-size: 20px;">Junio</h3>

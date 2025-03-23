@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Asociación Amigos de Torreciudad en Málaga</title>
 
-  <!-- FullCalendar actualizado -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
-
   <!-- EmailJS -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
@@ -239,9 +234,10 @@
     </div>
 
     <div class="derecha-container">
-      <div id="calendario">
-  <h2 style="color: #e37222; text-align: center; margin-bottom: 10px;">📅 Calendario de Eventos</h2>
-  <div id="torremal-calendar" style="background: white; color: black; border-radius: 10px; padding: 10px;"></div>
+      <div id="calendario" style="background: #ffffff; color: #1d1d1d; border-radius: 12px; padding: 15px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 10px;">
+  <h2 style="color: #e37222; text-align: center; font-family: 'Georgia', serif;">📅 Calendario de Eventos</h2>
+  <div id="nuevo-calendario"></div>
+</div>
 </div>
 
       <div id="noticias">
@@ -271,33 +267,7 @@
   </ul>
 </div>
 
-<!-- Modal Eventos -->
-<div class="modal" id="modal-eventos">
-  <button class="close-btn" onclick="closeModal()">✖</button>
-  <h2 style="color: #e37222;">Eventos 2025</h2>
-  <h3 style="color: #e37222; font-size: 20px;">Mayo</h3>
-  <ul>
-    <li><a href="#" onclick="openModal('evento-presentacion')"><span style="color: white;">Jueves 8</span> - <em style="color: white;">"Tras las huellas de Jesús: un camino por Tierra Santa"</em></a></li>
-    <li><a href="#" onclick="openModal('evento-torreciudad')">Jueves 15 - <em style="color: white;">"Encuentro en Torreciudad"</em></a></li>
-  </ul>
-  <h3 style="color: #e37222; font-size: 20px;">Junio</h3>
-  <ul>
-    <li><a href="#" onclick="openModal('evento-rosario')">Martes 10 - <em style="color: white;">"Rosario por la Paz"</em></a></li>
-  </ul>
-  <h3 style="color: #e37222; font-size: 20px;">Julio</h3>
-  <ul>
-    <li><a href="#" onclick="openModal('evento-juvenil')">Domingo 20 - <em style="color: white;">"Peregrinación Juvenil"</em></a></li>
-  </ul>
-  <h3 style="color: #e37222; font-size: 20px;">Septiembre</h3>
-  <ul>
-    <li><a href="#" onclick="openModal('evento-retiro')">Viernes 5 - <em style="color: white;">"Retiro espiritual"</em></a></li>
-    <li><a href="#" onclick="openModal('evento-familias')">13-15 - <em style="color: white;">"Encuentro de las Familias"</em></a></li>
-  </ul>
-  <h3 style="color: #e37222; font-size: 20px;">Noviembre</h3>
-  <ul>
-    <li><a href="#" onclick="openModal('evento-otono')">Miércoles 12 - <em style="color: white;">"Convivencia de otoño"</em></a></li>
-  </ul>
-</div>
+
 
 <!-- Modal Peregrinaciones -->
 <div class="modal" id="modal-peregrinaciones">
@@ -421,34 +391,50 @@ function enviarDatosRegistro(e) {
 <!-- Modal Calendario de Eventos -->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('torremal-calendar');
-    if (calendarEl) {
-      let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,listMonth'
-        },
-        events: [
-          { id: 'evento-presentacion', title: '📌 Tras las huellas de Jesús', start: '2025-05-08' },
-          { id: 'evento-torreciudad', title: 'Encuentro en Torreciudad', start: '2025-05-15' },
-          { id: 'evento-rosario', title: 'Rosario por la Paz', start: '2025-06-10' },
-          { id: 'evento-juvenil', title: 'Peregrinación Juvenil', start: '2025-07-20' },
-          { id: 'evento-retiro', title: 'Retiro espiritual', start: '2025-09-05' },
-          { id: 'evento-familias', title: 'Encuentro de las Familias', start: '2025-09-13', end: '2025-09-15' },
-          { id: 'evento-otono', title: 'Convivencia de otoño', start: '2025-11-12' }
-        ],
-        eventColor: '#e37222',
-        eventTextColor: '#fff',
-        eventClick: function(info) {
-          if (info.event.id) openModal(info.event.id);
-        }
-      });
-      calendar.render();
-    }
-  });
+  const calendarEl = document.getElementById('nuevo-calendario');
+  if (calendarEl) {
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      height: 'auto',
+      events: Array.from(document.querySelectorAll('#modal-eventos ul li a')).map(el => {
+  const text = el.textContent.trim();
+  const match = text.match(/(\w+\s\d+)[^\"]*\"(.+?)\"/);
+  if (!match) return null;
+  const [_, fechaTexto, titulo] = match;
+
+  const meses = {
+    'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
+    'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
+    'septiembre': '09', 'octubre': '10', 'noviembre': '11', 'diciembre': '12'
+  };
+  let mes = el.closest('ul').previousElementSibling.textContent.trim().toLowerCase();
+  let dia = fechaTexto.match(/\d+/)?.[0];
+  let mesNum = meses[mes] || '01';
+  let fechaFinal = `2025-${mesNum}-${dia.padStart(2, '0')}`;
+
+  return {
+    title: '📌 ' + titulo,
+    start: fechaFinal,
+    id: el.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '',
+    color: '#e37222',
+    textColor: '#fff'
+  };
+}).filter(Boolean),
+      eventColor: '#e37222',
+      eventTextColor: '#fff',
+      eventClick: function(info) {
+        if (info.event.id) openModal(info.event.id);
+      }
+    });
+    calendar.render();
+  }
+});
 </script>
 
 <div class="modal" id="modal-form-presentacion">

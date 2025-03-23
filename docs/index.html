@@ -254,6 +254,147 @@
 
   <div class="overlay" id="overlay" onclick="closeModal()"></div>
 
+<!-- Modal Quiénes somos -->
+<div class="modal" id="modal-quienes">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Quiénes somos</h2>
+  <p>Somos una asociación sin ánimo de lucro que fomenta la devoción a la Virgen de los Ángeles, organizando eventos y peregrinaciones al Santuario de Torreciudad.</p>
+  <h3>Junta Directiva</h3>
+  <ul>
+    <li>Presidente: José Belinchón</li>
+    <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
+    <li>Tesorero: Juan Sebastián</li>
+    <li>Secretario: Fernando Ramos</li>
+    <li>Vocal 1ª: Pilar Prados</li>
+    <li>Vocal 2ª: Guadalupe Hermoso Mesa</li>
+  </ul>
+</div>
+
+<!-- Modal Eventos -->
+<div class="modal" id="modal-eventos">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="color: #e37222;">Eventos 2025</h2>
+  <h3 style="color: #e37222; font-size: 20px;">Mayo</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-presentacion')"><span style="color: white;">Jueves 8</span> - <em style="color: white;">"Tras las huellas de Jesús: un camino por Tierra Santa"</em></a></li>
+    <li><a href="#" onclick="openModal('evento-torreciudad')">Jueves 15 - <em style="color: white;">"Encuentro en Torreciudad"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Junio</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-rosario')">Martes 10 - <em style="color: white;">"Rosario por la Paz"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Julio</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-juvenil')">Domingo 20 - <em style="color: white;">"Peregrinación Juvenil"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Septiembre</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-retiro')">Viernes 5 - <em style="color: white;">"Retiro espiritual"</em></a></li>
+    <li><a href="#" onclick="openModal('evento-familias')">13-15 - <em style="color: white;">"Encuentro de las Familias"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Noviembre</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-otono')">Miércoles 12 - <em style="color: white;">"Convivencia de otoño"</em></a></li>
+  </ul>
+</div>
+
+<!-- Modal Peregrinaciones -->
+<div class="modal" id="modal-peregrinaciones">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Peregrinaciones</h2>
+  <p>Organizamos distintas peregrinaciones a lo largo del año. Aquí publicaremos la información por años y destinos, incluyendo fotografías y testimonios.</p>
+</div>
+
+<!-- Modal Registro -->
+<div class="modal" id="modal-registro">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Registro de Nuevos Socios</h2>
+  <form id="form-registro" onsubmit="enviarDatosRegistro(event)">
+    <label>DNI:</label><input type="text" name="dni" required><br>
+    <label>Nombre completo:</label><input type="text" name="nombre" required><br>
+    <label>Fecha de nacimiento:</label><input type="date" name="fecha" required><br>
+    <label>Estado civil:</label><input type="text" name="estado_civil" required><br>
+    <label>Profesión:</label><input type="text" name="profesion" required><br>
+    <label>Dirección fiscal:</label><input type="text" name="direccion" required><br>
+    <label>Correo electrónico:</label><input type="email" name="email" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
+    <button type="submit">Ir a donación</button>
+  </form>
+</div>
+
+<!-- Modal Contacto -->
+<div class="modal" id="modal-contacto">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Contacto</h2>
+  <form id="form-contacto">
+    <label>Motivo de la consulta:</label>
+    <select name="motivo" id="motivo-consulta" required>
+      <option value="Eventos">Eventos</option>
+      <option value="Peregrinaciones">Peregrinaciones</option>
+      <option value="Donaciones">Donaciones</option>
+      <option value="Otro">Otro motivo</option>
+    </select><br><br>
+
+    <label>Descripción de la consulta:</label><br>
+    <textarea name="descripcion" id="descripcion-consulta" rows="4" cols="50" required></textarea><br><br>
+
+    <label>Nombre completo:</label><input type="text" name="nombre" id="nombre-consulta" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" id="telefono-consulta" required><br><br>
+
+    <button type="submit">Enviar consulta</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('form-contacto').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const motivo = document.getElementById('motivo-consulta').value;
+    const descripcion = document.getElementById('descripcion-consulta').value;
+    const nombre = document.getElementById('nombre-consulta').value;
+    const telefono = document.getElementById('telefono-consulta').value;
+
+    const subject = encodeURIComponent("Consulta sobre: " + motivo);
+    const body = encodeURIComponent(`Motivo: ${motivo}
+
+Descripción:
+${descripcion}
+
+Nombre: ${nombre}
+Teléfono: ${telefono}`);
+
+    window.location.href = `mailto:torremal.forms@gmail.com?subject=${subject}&body=${body}`;
+    this.reset();
+    closeModal();
+  });
+</script>
+
+<script>
+function enviarDatosRegistro(e) {
+  e.preventDefault();
+  const form = document.getElementById('form-registro');
+  const formData = new FormData(form);
+  const nombre = formData.get('nombre');
+
+  fetch('https://script.google.com/macros/s/AKfycbyymSeg5rSaqckRX_Tz9ntLbYPPsdwVN_YmZRgVa3xCSCFBJXKAOaZ93QLPmpOZo7mtxA/exec', {
+    method: 'POST',
+    body: formData
+  });
+
+  emailjs.send('service_m41bqcv', 'template_9pu7nlg', {
+    nombre: nombre,
+    correo: formData.get('email')
+  }).then(() => {
+    alert(`Gracias por confiar en nosotros, ${nombre}. Te redirigimos a la página de donaciones.`);
+    form.reset();
+    closeModal();
+    window.open("https://torreciudad.org/amigos-de-torreciudad/", "_blank");
+  }).catch((error) => {
+    alert('Error al enviar el correo. Inténtalo de nuevo.');
+    console.error(error);
+  });
+}
+</script>
+
 <!-- Modal del evento del 8 de mayo -->
 <div class="modal" id="evento-presentacion">
   <button class="close-btn" onclick="closeModal()">✖</button>
@@ -277,10 +418,10 @@
 <!-- Formulario inscripción evento -->
 
 <!-- Modal Calendario de Eventos -->
-<div class="modal" id="modal-calendario">
+<div class="modal" id="modal-calendario" style="max-width: 95vw; max-height: 90vh; overflow-y: auto;">
   <button class="close-btn" onclick="closeModal()">✖</button>
   <h2 style="text-align: center; color: #e37222;">Calendario de Eventos</h2>
-  <div id="calendario" style="padding: 10px; border-radius: 10px;">
+  <div id="calendario" style="padding: 10px; border-radius: 10px; height: 80vh; overflow: auto;">
     <div id="torremal-calendar"></div>
   </div>
 </div>

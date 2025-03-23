@@ -240,8 +240,9 @@
 
     <div class="derecha-container">
       <div id="calendario">
-        <button onclick="openModal('modal-calendario')" style="padding: 10px 20px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; width: 100%;">📅 Ver Calendario de Eventos</button>
-      </div>
+  <h2 style="color: #e37222; text-align: center; margin-bottom: 10px;">📅 Calendario de Eventos</h2>
+  <div id="torremal-calendar" style="background: white; color: black; border-radius: 10px; padding: 10px;"></div>
+</div>
 
       <div id="noticias">
         <h2 style="color: #e37222; text-align: center;">📰 Noticias</h2>
@@ -418,14 +419,6 @@ function enviarDatosRegistro(e) {
 <!-- Formulario inscripción evento -->
 
 <!-- Modal Calendario de Eventos -->
-<div class="modal" id="modal-calendario" style="max-width: 60vw; max-height: 90vh; overflow-y: auto;">
-  <button class="close-btn" onclick="closeModal()">✖</button>
-  <h2 style="text-align: center; color: #e37222;">Calendario de Eventos</h2>
-  <div id="calendario" style="padding: 10px; border-radius: 10px; height: 70vh; overflow: auto; background-color: white; color: black;">
-    <div id="torremal-calendar" style="min-height: 100%;"></div>
-  </div>
-</div>
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     let calendarEl = document.getElementById('torremal-calendar');

@@ -22,6 +22,28 @@
     noticias[noticiaIndex].classList.add("active");
     noticias[noticiaIndex].style.opacity = 1;
   }, 6000);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendario');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'es',
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      events: [
+        { title: 'Encuentro de las Familias (Evento principal)', start: '2025-09-13', end: '2025-09-15' },
+        { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
+        { title: 'Rosario por la Paz', start: '2025-06-10' },
+        { title: 'Peregrinación Juvenil', start: '2025-07-20' },
+        { title: 'Retiro espiritual', start: '2025-09-05' },
+        { title: 'Convivencia de otoño', start: '2025-11-12' }
+      ]
+    });
+    calendar.render();
+  });
 </script>
   <style>
     body {
@@ -329,5 +351,39 @@
   </form>
 </div>
 
+<div class="modal" id="evento-presentacion">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2><img src="assets/images/logo-torreciudad.png" alt="Logo" style="height: 40px; vertical-align: middle;"> Presentación de la Asociación TORREMAL</h2>
+  <p><strong>Descripción:</strong> Un encuentro festivo donde presentaremos la Asociación Amigos de Torreciudad en Málaga, con una tertulia acompañada de cocktail. Participarán:</p>
+  <ul>
+    <li><strong>D. José Belinchón</strong> – Presidente de TORREMAL</li>
+    <li><strong>D. César Miavete</strong> – Doctor en Teología Dogmática y párroco de San Juan de Ávila (Zaragoza)</li>
+    <li><strong>Dña. Guadalupe Hermoso Mesa</strong> – Vocal de TORREMAL</li>
+  </ul>
+  <p><strong>Lugar:</strong> C. Duquesa de Parcent, 7, Distrito Centro, 29001 Málaga</p>
+  <p><strong>Hora:</strong> 14:00</p>
+  <p><strong>Contacto:</strong> José Belinchón – <a href="tel:+34630235333" style="color: #e37222;">+34 630 23 53 33</a></p>
+  <button onclick="openModal('modal-form-presentacion')">📝 Apuntarse al evento</button><br><br>
+  <button onclick="copyEventLink('evento-presentacion')">📤 Compartir evento</button>
+</div>
+
+<div class="modal" id="modal-contacto">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Contacto</h2>
+  <form action="mailto:torremal@protonmail.com" method="POST" enctype="text/plain">
+    <label>Motivo de la consulta:</label>
+    <select name="motivo" required>
+      <option value="eventos">Eventos</option>
+      <option value="peregrinaciones">Peregrinaciones</option>
+      <option value="aportaciones">Aportaciones</option>
+      <option value="otro">Otro motivo</option>
+    </select><br><br>
+    <label>Descripción de la consulta:</label><br>
+    <textarea name="descripcion" rows="4" cols="50" required></textarea><br><br>
+    <label>Nombre:</label><input type="text" name="nombre" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
+    <button type="submit">Enviar consulta</button>
+  </form>
+</div>
 </body>
 </html>

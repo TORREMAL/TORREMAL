@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asociación Amigos de Torreciudad en Málaga</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet" />
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("torremal@protonmail.com");
+    })();
+  </script>
   <style>
     body {
       margin: 0;
@@ -12,7 +18,6 @@
       color: white;
       font-family: Arial, sans-serif;
     }
-
     header {
       background-color: #1d1d1d;
       padding: 20px;
@@ -21,22 +26,18 @@
       justify-content: center;
       gap: 20px;
     }
-
     header img {
       height: 50px;
     }
-
     header h1 {
       margin: 0;
       font-size: 24px;
       text-align: center;
     }
-
     nav {
       background-color: #e37222;
       padding: 10px 0;
     }
-
     nav ul {
       list-style: none;
       margin: 0;
@@ -45,18 +46,15 @@
       justify-content: center;
       flex-wrap: wrap;
     }
-
     nav ul li {
       position: relative;
     }
-
     nav ul li a {
       color: white;
       text-decoration: none;
       padding: 10px 20px;
       display: block;
     }
-
     nav ul li ul {
       display: none;
       position: absolute;
@@ -65,15 +63,12 @@
       background-color: #e37222;
       min-width: 200px;
     }
-
     nav ul li:hover ul {
       display: block;
     }
-
     nav ul li ul li a {
       padding: 10px;
     }
-
     .carousel-container {
       display: flex;
       flex-wrap: nowrap;
@@ -82,31 +77,30 @@
       gap: 20px;
       padding: 20px;
     }
-
     .carousel, #calendario {
       flex: 1;
       max-width: 50%;
       box-sizing: border-box;
     }
-
     .carousel {
       position: relative;
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-
     .carousel img {
       width: 100%;
       height: auto;
-      display: none;
-      transition: opacity 0.5s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
-
     .carousel img.active {
-      display: block;
+      opacity: 1;
+      position: relative;
     }
-
     #calendario {
       background: #f4f4f4;
       color: black;
@@ -114,13 +108,12 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     .modal {
       display: none;
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.95);
       background-color: #2d2d2d;
       padding: 30px;
       border-radius: 8px;
@@ -129,12 +122,14 @@
       width: 90%;
       max-width: 600px;
       color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-
     .modal.active {
       display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
-
     .overlay {
       display: none;
       position: fixed;
@@ -145,17 +140,14 @@
       background: rgba(0, 0, 0, 0.5);
       z-index: 999;
     }
-
     .overlay.active {
       display: block;
     }
-
     @media screen and (max-width: 768px) {
       .carousel-container {
         flex-direction: column;
         align-items: center;
       }
-
       .carousel, #calendario {
         max-width: 100%;
       }
@@ -167,7 +159,6 @@
     <img src="assets/images/logo-torreciudad.png" alt="Logo Torreciudad">
     <h1>ASOCIACIÓN AMIGOS DE TORRECIUDAD EN MÁLAGA</h1>
   </header>
-
   <nav>
     <ul>
       <li><a href="#" onclick="openModal('modal-quienes')">Quiénes somos</a></li>
@@ -177,7 +168,6 @@
       <li><a href="#" onclick="openModal('modal-contacto')">Contacto</a></li>
     </ul>
   </nav>
-
   <div class="carousel-container">
     <div class="carousel">
       <img src="assets/images/slide1.jpeg" class="active" alt="Imagen 1">
@@ -190,41 +180,42 @@
       <h3>Calendario de Eventos</h3>
     </div>
   </div>
-
   <div class="overlay" id="overlay" onclick="closeModal()"></div>
-
   <div class="modal" id="modal-quienes">
     <h2>Quiénes somos</h2>
     <p>Somos una asociación sin ánimo de lucro que fomenta la devoción a la Virgen de los Ángeles, organizando eventos y peregrinaciones al Santuario de Torreciudad.</p>
+    <h3>Junta Directiva</h3>
+    <ul>
+      <li>Presidente: José Belinchón</li>
+      <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
+      <li>Tesorero: Juan Sebastián</li>
+      <li>Secretario: Fernando Ramos</li>
+      <li>Vocal 1ª: Pilar Prados</li>
+      <li>Vocal 2ª: Guadalupe Hermoso Mesa</li>
+    </ul>
   </div>
-
   <div class="modal" id="modal-eventos">
     <h2>Eventos</h2>
     <p>Calendario de actividades y encuentros anuales organizados por la asociación.</p>
   </div>
-
   <div class="modal" id="modal-peregrinaciones">
     <h2>Peregrinaciones</h2>
     <p>Nuestras principales peregrinaciones al Santuario de Torreciudad, organizadas por años y con materiales visuales disponibles.</p>
   </div>
-
   <div class="modal" id="modal-registro">
     <h2>Registro de Nuevos Socios</h2>
-    <form>
-      <label>DNI:</label><input type="text" required><br>
-      <label>Nombre completo:</label><input type="text" required><br>
-      <label>Fecha de nacimiento:</label><input type="date" required><br>
-      <label>Estado civil:</label><input type="text" required><br>
-      <label>Profesión:</label><input type="text" required><br>
-      <label>Dirección fiscal:</label><input type="text" required><br>
-      <label>Correo electrónico:</label><input type="email" required><br>
-      <label>Teléfono:</label><input type="tel" required><br><br>
-      <a href="https://torreciudad.org/amigos-de-torreciudad/" target="_blank">
-        <button type="button">Aportación</button>
-      </a>
+    <form id="form-registro">
+      <label>DNI:</label><input type="text" name="dni" required><br>
+      <label>Nombre completo:</label><input type="text" name="nombre" required><br>
+      <label>Fecha de nacimiento:</label><input type="date" name="fecha" required><br>
+      <label>Estado civil:</label><input type="text" name="estado_civil" required><br>
+      <label>Profesión:</label><input type="text" name="profesion" required><br>
+      <label>Dirección fiscal:</label><input type="text" name="direccion" required><br>
+      <label>Correo electrónico:</label><input type="email" name="email" required><br>
+      <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
+      <button type="submit">Ir a donación</button>
     </form>
   </div>
-
   <div class="modal" id="modal-contacto">
     <h2>Contacto</h2>
     <form action="mailto:torremal@protonmail.com" method="POST" enctype="text/plain">
@@ -235,17 +226,13 @@
         <option value="aportaciones">Aportaciones</option>
         <option value="otro">Otro motivo</option>
       </select><br><br>
-
       <label>Descripción de la consulta:</label><br>
       <textarea name="descripcion" rows="4" cols="50" required></textarea><br><br>
-
       <label>Nombre:</label><input type="text" name="nombre" required><br>
       <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
-
       <button type="submit">Enviar consulta</button>
     </form>
   </div>
-
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -253,7 +240,12 @@
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         events: [
-          { title: 'Evento Ejemplo', start: '2025-04-10' }
+          { title: 'Encuentro de las Familias (Evento principal)', start: '2025-09-13', end: '2025-09-15' },
+          { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
+          { title: 'Rosario por la Paz', start: '2025-06-10' },
+          { title: 'Peregrinación Juvenil', start: '2025-07-20' },
+          { title: 'Retiro espiritual', start: '2025-09-05' },
+          { title: 'Convivencia de otoño', start: '2025-11-12' }
         ]
       });
       calendar.render();
@@ -264,7 +256,7 @@
         slides[index].classList.remove("active");
         index = (index + 1) % slides.length;
         slides[index].classList.add("active");
-      }, 3000);
+      }, 5000);
     });
 
     function openModal(id) {
@@ -277,6 +269,42 @@
       document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
       document.getElementById('overlay').classList.remove('active');
     }
+
+    document.getElementById('form-registro').addEventListener('submit', function(event) {
+      event.preventDefault();
+      emailjs.sendForm('service_m41bqcv', 'template_9pu7nlg', this)
+        .then(function() {
+          const nombre = document.querySelector('#form-registro input[name="nombre"]').value;
+          const mensajeModal = document.createElement('div');
+          mensajeModal.style.position = 'fixed';
+          mensajeModal.style.top = '50%';
+          mensajeModal.style.left = '50%';
+          mensajeModal.style.transform = 'translate(-50%, -50%)';
+          mensajeModal.style.backgroundColor = '#e37222';
+          mensajeModal.style.color = 'white';
+          mensajeModal.style.padding = '20px';
+          mensajeModal.style.borderRadius = '10px';
+          mensajeModal.style.boxShadow = '0 0 15px rgba(0,0,0,0.5)';
+          mensajeModal.style.fontFamily = 'Palatino Linotype, serif';
+          mensajeModal.style.fontSize = '16px';
+          mensajeModal.style.textAlign = 'center';
+          mensajeModal.innerHTML = `<h3 style='margin-top: 0;'>¡Gracias por confiar en nosotros, ${nombre}!</h3><p>Con tu apoyo sacamos adelante este proyecto.</p><br><strong style='font-family: "Times New Roman", serif; font-size: 20px; background-color: #e37222; color: white; display: inline-block; padding: 8px 16px; border-radius: 6px;'>TORRECIUDAD SOMOS TODOS</strong><br><br><em style='font-size: 14px;'>José Belinchón<br>Presidente de TORREMAL</em>`;
+          document.body.appendChild(mensajeModal);
+          setTimeout(() => {
+            mensajeModal.remove();
+            document.getElementById('form-registro').reset();
+            closeModal();
+            window.open("https://torreciudad.org/amigos-de-torreciudad/", "_blank");
+          }, 6000);
+          alert('Gracias por confiar en nosotros. Con tu apoyo, ¡sacamos adelante este proyecto!\nRedirigiéndote ahora a la pasarela de aportaciones...');
+          document.getElementById('form-registro').reset();
+          closeModal();
+          window.open("https://torreciudad.org/amigos-de-torreciudad/", "_blank");
+        }, function(error) {
+          alert('Ocurrió un error al enviar el formulario. Inténtalo más tarde.');
+          console.log('FAILED...', error);
+        });
+    });
   </script>
 </body>
 </html>

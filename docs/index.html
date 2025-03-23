@@ -103,8 +103,17 @@
     }
     .carousel, #calendario {
       flex: 1;
-      max-width: 50%;
       box-sizing: border-box;
+    }
+    /* Estilos para el calendario, hacerlo más pequeño */
+    #calendario {
+      background: #f4f4f4;
+      color: black;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 100%; /* Asegurar que ocupe solo la mitad */
+      min-width: 300px;
     }
     .carousel {
       position: relative;
@@ -125,12 +134,22 @@
       opacity: 1;
       position: relative;
     }
-    #calendario {
-      background: #f4f4f4;
-      color: black;
-      padding: 10px;
+    /* Nueva sección de noticias */
+    .news-section {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px;
+    }
+    .news-section img {
+      width: 100%;
+      height: auto;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .news-section img:hover {
+      transform: scale(1.05);
     }
     .modal {
       display: none;
@@ -167,6 +186,16 @@
     .overlay.active {
       display: block;
     }
+
+    /* Modificar color de letra de los eventos en ventana emergente */
+    .modal #modal-eventos ul li a {
+      color: white; /* Color blanco para texto */
+    }
+
+    .modal #modal-eventos ul li a:hover {
+      color: #e37222; /* Hover color para mejorar visibilidad */
+    }
+
     @media screen and (max-width: 768px) {
       .carousel-container {
         flex-direction: column;
@@ -176,14 +205,6 @@
         max-width: 100%;
         margin: 0;
       }
-    }
-    /* Estilos para los eventos en la ventana emergente */
-    .modal #modal-eventos ul li a {
-      color: white; /* Cambiar color a blanco */
-    }
-
-    .modal #modal-eventos ul li a:hover {
-      color: #e37222; /* Color para hover */
     }
   </style>
 </head>
@@ -215,104 +236,74 @@
       <h3>Calendario de Eventos</h3>
     </div>
   </div>
+
+  <!-- Modal de "Quiénes somos" -->
+  <div class="modal" id="modal-quienes">
+    <h2>Quiénes somos</h2>
+    <p>Somos una asociación sin ánimo de lucro que fomenta la devoción a la Virgen de los Ángeles, organizando eventos y peregrinaciones al Santuario de Torreciudad.</p>
+    <h3>Junta Directiva</h3>
+    <ul>
+      <li>Presidente: José Belinchón</li>
+      <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
+      <li>Tesorero: Juan Sebastián</li>
+      <li>Secretario: Fernando Ramos</li>
+      <li>Vocal 1ª: Pilar Prados</li>
+      <li>Vocal 2ª: Guadalupe Hermoso Mesa</li>
+    </ul>
+  </div>
+
+  <!-- Nueva sección de noticias con imágenes -->
+  <div class="news-section">
+    <div>
+      <img src="assets/images/peregrinos.jpg" alt="Noticia Peregrinos" onclick="openImageModal('assets/images/peregrinos.jpg')">
+    </div>
+    <div>
+      <img src="assets/images/noticia2.jpeg" alt="Noticia 2" onclick="openImageModal('assets/images/noticia2.jpeg')">
+    </div>
+    <div>
+      <img src="assets/images/noticia3.jpeg" alt="Noticia 3" onclick="openImageModal('assets/images/noticia3.jpeg')">
+    </div>
+  </div>
+
   <div class="overlay" id="overlay" onclick="closeModal()"></div>
 
-  <!-- Modal de eventos -->
-  <div class="modal" id="modal-eventos">
-    <h2>Eventos 2025</h2>
-    <h3 style="color: #e37222; font-size: 20px;">Mayo</h3>
-    <ul>
-      <li><a href="#" onclick="openModal('evento-presentacion')">Jueves 8 - <em>"Presentación de la Asociación TORREMAL"</em></a></li>
-      <li><a href="#" onclick="openModal('evento-torreciudad')">Jueves 15 - <em>"Encuentro en Torreciudad"</em></a></li>
-    </ul>
-    <h3 style="color: #e37222; font-size: 20px;">Junio</h3>
-    <ul>
-      <li><a href="#" onclick="openModal('evento-rosario')">Martes 10 - <em>"Rosario por la Paz"</em></a></li>
-    </ul>
-    <h3 style="color: #e37222; font-size: 20px;">Julio</h3>
-    <ul>
-      <li><a href="#" onclick="openModal('evento-juvenil')">Domingo 20 - <em>"Peregrinación Juvenil"</em></a></li>
-    </ul>
-    <h3 style="color: #e37222; font-size: 20px;">Septiembre</h3>
-    <ul>
-      <li><a href="#" onclick="openModal('evento-retiro')">Viernes 5 - <em>"Retiro espiritual"</em></a></li>
-      <li><a href="#" onclick="openModal('evento-familias')">13-15 - <em>"Encuentro de las Familias"</em></a></li>
-    </ul>
-    <h3 style="color: #e37222; font-size: 20px;">Noviembre</h3>
-    <ul>
-      <li><a href="#" onclick="openModal('evento-otono')">Miércoles 12 - <em>"Convivencia de otoño"</em></a></li>
-    </ul>
+  <!-- Modal de imagen grande -->
+  <div class="modal" id="imageModal">
+    <img id="modalImage" src="" alt="Imagen grande" style="width: 100%; height: auto;">
   </div>
 
-  <!-- Evento específico -->
-  <div class="modal" id="evento-presentacion">
-    <h2><img src="assets/images/logo-torreciudad.png" alt="Logo" style="height: 40px; vertical-align: middle;"> Presentación de la Asociación TORREMAL</h2>
-    <p><strong>Descripción:</strong> Un encuentro festivo donde presentaremos la Asociación Amigos de Torreciudad en Málaga, con una tertulia acompañada de cocktail. Participarán:</p>
-    <ul>
-      <li><strong>D. José Belinchón</strong> – Presidente de TORREMAL</li>
-      <li><strong>D. César Miavete</strong> – Doctor en Teología Dogmática y párroco de San Juan de Ávila (Zaragoza)</li>
-      <li><strong>Dña. Guadalupe Hermoso Mesa</strong> – Vocal de TORREMAL</li>
-    </ul>
-    <p><strong>Lugar:</strong> C. Duquesa de Parcent, 7, Distrito Centro, 29001 Málaga</p>
-    <p><strong>Hora:</strong> 14:00</p>
-    <p><strong>Contacto:</strong> José Belinchón – <a href="tel:+34630235333" style="color: #e37222;">+34 630 23 53 33</a></p>
-    <button onclick="openModal('modal-form-presentacion')">📝 Apuntarse al evento</button><br><br>
-    <button onclick="copyEventLink('evento-presentacion')">📤 Compartir evento</button>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const calendarEl = document.getElementById('calendario');
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'es',
-        initialView: 'dayGridMonth',
-        events: [
-          { title: 'Encuentro de las Familias (Evento principal)', start: '2025-09-13', end: '2025-09-15' },
-          { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
-          { title: 'Rosario por la Paz', start: '2025-06-10' },
-          { title: 'Peregrinación Juvenil', start: '2025-07-20' },
-          { title: 'Retiro espiritual', start: '2025-09-05' },
-          { title: 'Convivencia de otoño', start: '2025-11-12' }
-        ]
-      });
-      calendar.render();
-    });
-
-    function openModal(id) {
-      document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    // Función para abrir la imagen en grande
+    function openImageModal(imageSrc) {
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = imageSrc;
+      document.getElementById('imageModal').classList.add('active');
       document.getElementById('overlay').classList.add('active');
     }
 
+    // Función para cerrar los modales
     function closeModal() {
       document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
       document.getElementById('overlay').classList.remove('active');
     }
 
-    // Copiar enlace del evento
-    function copyEventLink(eventId) {
-      const eventTitle = document.querySelector(`#${eventId} h2`).innerText;
-      const eventUrl = window.location.href + `#${eventId}`;
-      const textToCopy = `<img src="assets/images/logo-torreciudad.png" alt="Logo Torreciudad" style="height: 40px; vertical-align: middle;"> ${eventTitle} - ${eventUrl}`;
-      const tempInput = document.createElement('input');
-      tempInput.value = textToCopy;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      alert('Enlace copiado al portapapeles. ¡Compártelo!');
+    // Función para mover el carrusel
+    let carouselIndex = 0;
+    let carouselInterval = setInterval(() => moveCarousel(1), 5000);
+    function moveCarousel(step) {
+      const slides = document.querySelectorAll(".carousel img");
+      slides[carouselIndex].classList.remove("active");
+      carouselIndex = (carouselIndex + step + slides.length) % slides.length;
+      slides[carouselIndex].classList.add("active");
     }
 
-    // Modificar el desplegable para asistentes
-    document.addEventListener('DOMContentLoaded', function() {
-      const numAsistentesSelect = document.getElementById('numAsistentes');
-      for (let i = 1; i <= 10; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        numAsistentesSelect.appendChild(option);
-      }
+    // Pausar el carrusel al pasar el ratón
+    document.querySelector(".carousel").addEventListener('mouseover', function() {
+      clearInterval(carouselInterval);
+    });
+
+    document.querySelector(".carousel").addEventListener('mouseout', function() {
+      carouselInterval = setInterval(() => moveCarousel(1), 5000);
     });
   </script>
 </body>

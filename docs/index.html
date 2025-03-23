@@ -402,30 +402,7 @@ function enviarDatosRegistro(e) {
         right: 'dayGridMonth,listMonth'
       },
       height: 'auto',
-      events: Array.from(document.querySelectorAll('#modal-eventos ul li a')).map(el => {
-  const text = el.textContent.trim();
-  const match = text.match(/(\w+\s\d+)[^\"]*\"(.+?)\"/);
-  if (!match) return null;
-  const [_, fechaTexto, titulo] = match;
-
-  const meses = {
-    'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
-    'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
-    'septiembre': '09', 'octubre': '10', 'noviembre': '11', 'diciembre': '12'
-  };
-  let mes = el.closest('ul').previousElementSibling.textContent.trim().toLowerCase();
-  let dia = fechaTexto.match(/\d+/)?.[0];
-  let mesNum = meses[mes] || '01';
-  let fechaFinal = `2025-${mesNum}-${dia.padStart(2, '0')}`;
-
-  return {
-    title: '📌 ' + titulo,
-    start: fechaFinal,
-    id: el.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '',
-    color: '#e37222',
-    textColor: '#fff'
-  };
-}).filter(Boolean),
+      events: '/assets/data/eventos.json',
       eventColor: '#e37222',
       eventTextColor: '#fff',
       eventClick: function(info) {

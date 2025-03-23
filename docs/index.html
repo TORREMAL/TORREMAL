@@ -232,18 +232,19 @@
     <img src="assets/images/slide5.jpeg" alt="Imagen 5">
   </div>
   <div style="display: flex; flex-direction: column; width: 100%;">
-  <div id="calendario" style="flex: 1; background: #f4f4f4; color: black; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-    <h3>Calendario de Eventos</h3>
-    <!-- FullCalendar se carga dinámicamente -->
-  </div>
+  <div style="text-align: center; margin-top: 10px;">
+  <button onclick="openModal('modal-calendario')" style="padding: 10px 20px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">📅 Ver Calendario de Eventos</button>
+</div>
   <div id="noticias" style="flex: 1; background: #2d2d2d; margin-top: 20px; padding: 10px; border-radius: 10px; overflow: hidden;">
-    <h3 style="color: #e37222; text-align: center;">Noticias destacadas</h3>
-    <div class="noticias-carousel" style="position: relative; height: 300px;">
-      <img src="assets/noticias/recorte1.jpg" alt="Noticia 1" class="noticia active" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-      <img src="assets/noticias/entrevista1.png" alt="Noticia 2" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-      <img src="assets/noticias/recorte2.jpg" alt="Noticia 3" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-    </div>
+  <h2 style="color: #e37222; text-align: center; margin-bottom: 10px;">📰 Sección de Noticias</h2>
+  <p style="text-align: center; color: white; font-size: 14px; margin-bottom: 15px;">Aquí encontrarás las últimas apariciones en medios, entrevistas, recortes y novedades relacionadas con TORREMAL.</p>
+  <div class="noticias-carousel" style="position: relative; height: 300px; border-radius: 10px; overflow: hidden; cursor: pointer;" onclick="openNoticiaModal()">
+    <img src="assets/noticias/recorte1.jpg" alt="Noticia 1" class="noticia active" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
+    <img src="assets/noticias/entrevista1.png" alt="Noticia 2" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
+    <img src="assets/noticias/recorte2.jpg" alt="Noticia 3" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
   </div>
+</div>
+</div>
 </div>
 </div>
 
@@ -385,5 +386,86 @@
     <button type="submit">Enviar consulta</button>
   </form>
 </div>
+<div class="modal" id="modal-calendario">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="text-align: center; color: #e37222;">Calendario de Eventos</h2>
+  <div id="calendario" style="background: #f4f4f4; color: black; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-height: 80vh; overflow: auto;"></div>
+</div>
+
+<div class="modal" id="modal-contacto">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="text-align: center; color: #e37222;">Contacto</h2>
+  <form id="form-contacto">
+    <label>Motivo de la consulta:</label>
+    <select name="motivo" id="motivo-consulta" required>
+      <option value="Eventos">Eventos</option>
+      <option value="Peregrinaciones">Peregrinaciones</option>
+      <option value="Donaciones">Donaciones</option>
+      <option value="Otro">Otro motivo</option>
+    </select><br><br>
+
+    <label>Descripción de la consulta:</label><br>
+    <textarea name="descripcion" id="descripcion-consulta" rows="4" cols="50" required></textarea><br><br>
+
+    <label>Nombre completo:</label><input type="text" name="nombre" id="nombre-consulta" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" id="telefono-consulta" required><br><br>
+
+    <button type="submit">Enviar consulta</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('form-contacto').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const motivo = document.getElementById('motivo-consulta').value;
+    const descripcion = document.getElementById('descripcion-consulta').value;
+    const nombre = document.getElementById('nombre-consulta').value;
+    const telefono = document.getElementById('telefono-consulta').value;
+
+    const subject = encodeURIComponent("Consulta sobre: " + motivo);
+    const body = encodeURIComponent(`Motivo: ${motivo}
+
+Descripción:
+${descripcion}
+
+Nombre: ${nombre}
+Teléfono: ${telefono}`);
+
+    window.location.href = `mailto:torremal.forms@gmail.com?subject=${subject}&body=${body}`;
+    this.reset();
+    closeModal();
+  });
+</script>
+
+<div class="modal" id="modal-noticia-ampliada">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="text-align: center; color: #e37222;">Noticia Destacada</h2>
+  <div style="text-align: center;">
+    <p id="titulo-noticia-ampliada" style="color: white; font-weight: bold; margin-bottom: 15px;"></p>
+    <img id="imagen-noticia-ampliada" src="" alt="Noticia ampliada" style="max-width: 100%; max-height: 80vh; border-radius: 10px;">
+  </div>
+</div>
+</div>
+
+<script>
+  const noticias = document.querySelectorAll(".noticias-carousel .noticia");
+  let noticiaIndex = 0;
+
+  setInterval(() => {
+    noticias[noticiaIndex].classList.remove("active");
+    noticias[noticiaIndex].style.opacity = 0;
+    noticiaIndex = (noticiaIndex + 1) % noticias.length;
+    noticias[noticiaIndex].classList.add("active");
+    noticias[noticiaIndex].style.opacity = 1;
+  }, 6000);
+
+  function openNoticiaModal() {
+  const img = noticias[noticiaIndex].getAttribute('src');
+  const altText = noticias[noticiaIndex].getAttribute('alt');
+  document.getElementById('imagen-noticia-ampliada').src = img;
+  document.getElementById('titulo-noticia-ampliada').innerText = altText;
+  openModal('modal-noticia-ampliada');
+  }
+</script>
 </body>
 </html>

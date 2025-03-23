@@ -363,8 +363,70 @@
 <div class="modal" id="modal-calendario">
   <button class="close-btn" onclick="closeModal()">✖</button>
   <h2 style="text-align: center; color: #e37222;">Calendario de Eventos</h2>
-  <div id="calendario" style="background: #f4f4f4; color: black; padding: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-height: 80vh; overflow: auto;"></div>
+  <div id="calendario" style="background-color: #1d1d1d; color: white; padding: 10px; border-radius: 10px; max-height: 80vh; overflow: auto;">
+  <div id="torremal-calendar"></div>
 </div>
+
+<!-- Formulario de inscripción al evento del 8 de mayo -->
+<div class="modal" id="modal-form-presentacion">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="color: #e37222; text-align: center;">📝 Inscripción – Presentación de TORREMAL</h2>
+  <form id="form-evento-presentacion">
+    <label>Número de asistentes:</label>
+    <select id="numAsistentes" name="asistentes" required onchange="mostrarCamposAsistentes()">
+      <option value="">Selecciona</option>
+      " + Array.from({length:10}, (_,i) => `<option value="${i+1}">${i+1}</option>`).join('') + "
+    </select><br><br>
+    <div id="camposNombres"></div>
+    <label>Correo electrónico:</label>
+    <input type="email" name="correo" required><br>
+    <label>Teléfono de contacto:</label>
+    <input type="tel" name="telefono" required><br><br>
+    <button type="submit">Enviar inscripción</button>
+  </form>
+</div>
+
+<script>
+  function mostrarCamposAsistentes() {
+    const cantidad = parseInt(document.getElementById('numAsistentes').value);
+    const contenedor = document.getElementById('camposNombres');
+    contenedor.innerHTML = '';
+    for (let i = 1; i <= cantidad; i++) {
+      const label = document.createElement('label');
+      label.textContent = `Nombre completo asistente ${i}:`;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = `asistente${i}`;
+      input.required = true;
+      contenedor.appendChild(label);
+      contenedor.appendChild(input);
+      contenedor.appendChild(document.createElement('br'));
+    }
+  }
+
+  document.getElementById('form-evento-presentacion').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const data = new FormData(form);
+    const asistentes = data.get('asistentes');
+    const correo = data.get('correo');
+    const telefono = data.get('telefono');
+    let nombres = '';
+    for (let i = 1; i <= asistentes; i++) {
+      nombres += `Asistente ${i}: ${data.get(`asistente${i}`)}
+`;
+    }
+
+    const asunto = encodeURIComponent('Inscripción – Presentación de TORREMAL');
+    const cuerpo = encodeURIComponent(`${nombres}
+Correo: ${correo}
+Teléfono: ${telefono}`);
+    window.location.href = `mailto:torremal.forms@gmail.com?subject=${asunto}&body=${cuerpo}`;
+    alert('Inscripción enviada correctamente. ¡Gracias por apuntarte al evento!');
+    closeModal();
+    form.reset();
+  });
+</script>
 
 <div class="modal" id="modal-contacto">
   <button class="close-btn" onclick="closeModal()">✖</button>
@@ -449,26 +511,35 @@ Teléfono: ${telefono}`);
   openModal('modal-noticia-ampliada');
   }
   document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('calendario');
-    if (calendarEl) {
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'es',
-        initialView: 'dayGridMonth',
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,listMonth'
-        },
-        events: [
-          { title: 'Encuentro de las Familias', start: '2025-09-13', end: '2025-09-15' },
-          { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
-          { title: 'Rosario por la Paz', start: '2025-06-10' },
-          { title: 'Peregrinación Juvenil', start: '2025-07-20' },
-          { title: 'Retiro espiritual', start: '2025-09-05' },
-          { title: 'Convivencia de otoño', start: '2025-11-12' }
-        ]
-      });
-      calendar.render();
+  const calendarEl = document.getElementById('torremal-calendar');
+  if (calendarEl) {
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+      height: 'auto',
+      contentHeight: 'auto',
+      events: [
+        { title: '📌 Presentación de TORREMAL', start: '2025-05-08' },
+        { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
+        { title: 'Rosario por la Paz', start: '2025-06-10' },
+        { title: 'Peregrinación Juvenil', start: '2025-07-20' },
+        { title: 'Retiro espiritual', start: '2025-09-05' },
+        { title: 'Encuentro de las Familias', start: '2025-09-13', end: '2025-09-15' },
+        { title: 'Convivencia de otoño', start: '2025-11-12' },
+        { title: 'Jornada Mariana Torreciudad', start: '2025-09-07' },
+        { title: 'Encuentro de colegios y familias', start: '2025-10-19' }
+      ],
+      eventColor: '#e37222',
+      eventTextColor: '#fff'
+    });
+    calendar.render();
+  }
+
     }
   });
 </script>

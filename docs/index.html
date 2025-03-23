@@ -5,46 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asociación Amigos de Torreciudad en Málaga</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet">
-  <script src="https://cdn.emailjs.com/dist/email.min.js">  let slides = document.querySelectorAll(".carousel img");
-  let index = 0;
-  setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-  }, 5000);
-
-  let noticias = document.querySelectorAll(".noticias-carousel .noticia");
-  let noticiaIndex = 0;
-  setInterval(() => {
-    noticias[noticiaIndex].classList.remove("active");
-    noticias[noticiaIndex].style.opacity = 0;
-    noticiaIndex = (noticiaIndex + 1) % noticias.length;
-    noticias[noticiaIndex].classList.add("active");
-    noticias[noticiaIndex].style.opacity = 1;
-  }, 6000);
-
-  document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('calendario');
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      locale: 'es',
-      initialView: 'dayGridMonth',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,listMonth'
-      },
-      events: [
-        { title: 'Encuentro de las Familias (Evento principal)', start: '2025-09-13', end: '2025-09-15' },
-        { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
-        { title: 'Rosario por la Paz', start: '2025-06-10' },
-        { title: 'Peregrinación Juvenil', start: '2025-07-20' },
-        { title: 'Retiro espiritual', start: '2025-09-05' },
-        { title: 'Convivencia de otoño', start: '2025-11-12' }
-      ]
-    });
-    calendar.render();
-  });
-</script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -239,10 +200,9 @@
   <h2 style="color: #e37222; text-align: center; margin-bottom: 10px;">📰 Sección de Noticias</h2>
   <p style="text-align: center; color: white; font-size: 14px; margin-bottom: 15px;">Aquí encontrarás las últimas apariciones en medios, entrevistas, recortes y novedades relacionadas con TORREMAL.</p>
   <div class="noticias-carousel" style="position: relative; height: 300px; border-radius: 10px; overflow: hidden; cursor: pointer;" onclick="openNoticiaModal()">
-    <img src="assets/noticias/recorte1.jpg" alt="Noticia 1" class="noticia active" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-    <img src="assets/noticias/entrevista1.png" alt="Noticia 2" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-    <img src="assets/noticias/recorte2.jpg" alt="Noticia 3" class="noticia" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; border-radius: 10px;">
-  </div>
+  <img src="assets/noticias/peregrinos.jpg" alt="Peregrinación de jóvenes a Torreciudad" class="noticia active" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 1s ease-in-out; border-radius: 10px;">
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -448,6 +408,14 @@ Teléfono: ${telefono}`);
 </div>
 
 <script>
+  let slides = document.querySelectorAll(".carousel img");
+  let index = 0;
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 5000);
+
   const noticias = document.querySelectorAll(".noticias-carousel .noticia");
   let noticiaIndex = 0;
 
@@ -466,6 +434,29 @@ Teléfono: ${telefono}`);
   document.getElementById('titulo-noticia-ampliada').innerText = altText;
   openModal('modal-noticia-ampliada');
   }
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendario');
+    if (calendarEl) {
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'es',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,listMonth'
+        },
+        events: [
+          { title: 'Encuentro de las Familias', start: '2025-09-13', end: '2025-09-15' },
+          { title: 'Encuentro en Torreciudad', start: '2025-05-15' },
+          { title: 'Rosario por la Paz', start: '2025-06-10' },
+          { title: 'Peregrinación Juvenil', start: '2025-07-20' },
+          { title: 'Retiro espiritual', start: '2025-09-05' },
+          { title: 'Convivencia de otoño', start: '2025-11-12' }
+        ]
+      });
+      calendar.render();
+    }
+  });
 </script>
 </body>
 </html>

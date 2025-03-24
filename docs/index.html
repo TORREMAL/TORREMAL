@@ -1,109 +1,580 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asociación Amigos de Torreciudad en Málaga</title>
-<style>
-/ Add your custom styles here /
-body {
-font-family: Arial, sans-serif;
-line-height: 1.6;
-margin: 0;
-padding: 0;
-}
-header {
-background-color: #f4f4f4;
-padding: 1rem;
-text-align: center;
-}
-nav {
-background-color: #333;
-color: #fff;
-padding: 0.5rem;
-}
-nav ul {
-list-style-type: none;
-padding: 0;
-}
-nav ul li {
-display: inline;
-margin-right: 10px;
-}
-nav ul li a {
-color: #fff;
-text-decoration: none;
-}
-main {
-padding: 2rem;
-}
-footer {
-background-color: #333;
-color: #fff;
-text-align: center;
-padding: 1rem;
-position: fixed;
-bottom: 0;
-width: 100%;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Asociación Amigos de Torreciudad en Málaga</title>
+
+  <!-- FullCalendar actualizado -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background-color: #1d1d1d;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #1d1d1d;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    header img {
+      height: 50px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #e37222;
+      padding: 10px 0;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+    }
+
+    nav ul li ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #e37222;
+      min-width: 200px;
+    }
+
+    nav ul li:hover ul {
+      display: block;
+    }
+
+    nav ul li ul li a {
+      padding: 10px;
+    }
+
+    .carousel-container {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .carousel, .derecha-container {
+      flex: 1;
+      max-width: 50%;
+      box-sizing: border-box;
+    }
+
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .carousel img {
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel img.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .derecha-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #calendario, #noticias {
+      background: #2d2d2d;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+
+    .noticias-carousel img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      background-color: #2d2d2d;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      z-index: 1000;
+      width: 90%;
+      max-width: 600px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .modal.active {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    .modal h3, .modal h2 {
+      color: #e37222;
+    }
+
+    .modal ul li {
+      color: white;
+    }
+
+    @media screen and (max-width: 768px) {
+      .carousel-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .carousel, .derecha-container {
+        max-width: 100%;
+      }
+
+      .carousel {
+        height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>Asociación Amigos de Torreciudad en Málaga</h1>
-<!-- Add your logo image here -->
-<!-- <img src="path/to/your/logo.png" alt="Logo"> -->
-</header>
+  <header>
+    <img src="assets/images/logo-torreciudad.png" alt="Logo Torreciudad">
+    <h1>ASOCIACIÓN AMIGOS DE TORRECIUDAD EN MÁLAGA</h1>
+  </header>
 
-<nav>
+  <nav>
     <ul>
-        <li><a href="#home">Inicio</a></li>
-        <li><a href="#about">Quiénes Somos</a></li>
-        <li><a href="#events">Eventos</a></li>
-        <li><a href="#contact">Contacto</a></li>
+      <li><a href="#" onclick="openModal('modal-quienes')">Quiénes somos</a></li>
+      <li><a href="#" onclick="openModal('modal-eventos')">Eventos</a></li>
+      <li><a href="#" onclick="openModal('modal-peregrinaciones')">Peregrinaciones</a></li>
+      <li><a href="#" onclick="openModal('modal-registro')">Registro</a></li>
+      <li><a href="#" onclick="openModal('modal-contacto')">Contacto</a></li>
     </ul>
-</nav>
+  </nav>
 
-<main>
-    <section id="home">
-        <h2>Bienvenidos</h2>
-        <p>Bienvenidos a la página web de la Asociación Amigos de Torreciudad en Málaga.</p>
-    </section>
+  <div class="carousel-container">
+    <div class="carousel">
+      <img src="assets/images/slide1.jpeg" class="active" alt="Imagen 1">
+      <img src="assets/images/slide2.jpeg" alt="Imagen 2">
+      <img src="assets/images/slide3.jpeg" alt="Imagen 3">
+      <img src="assets/images/slide4.jpeg" alt="Imagen 4">
+      <img src="assets/images/slide5.jpeg" alt="Imagen 5">
+    </div>
 
-    <section id="about">
-        <h2>Quiénes Somos</h2>
-        <p>Somos una asociación dedicada a promover la devoción a la Virgen de Torreciudad.</p>
-    </section>
+    <div class="derecha-container">
+      <div id="calendario">
+        <button onclick="openModal('modal-calendario')" style="padding: 10px 20px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; width: 100%;">📅 Ver Calendario de Eventos</button>
+      </div>
 
-    <section id="events">
-        <h2>Próximos Eventos</h2>
-        <ul>
-            <li>Peregrinación anual a Torreciudad</li>
-            <li>Charla sobre la historia del santuario</li>
-            <!-- Add more events as needed -->
-        </ul>
-    </section>
+      <div id="noticias">
+        <h2 style="color: #e37222; text-align: center;">📰 Noticias</h2>
+        <div class="noticias-carousel" style="display: flex; gap: 10px; overflow-x: auto; cursor: pointer;" onclick="openNoticiaModal()">
+          <img src="assets/noticias/peregrinos.jpg" alt="Peregrinación de jóvenes a Torreciudad" class="noticia active" style="border-radius: 6px;">
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <section id="contact">
-        <h2>Contacto</h2>
-        <form>
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name" required>
+  <div class="overlay" id="overlay" onclick="closeModal()"></div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+<!-- Modal Quiénes somos -->
+<div class="modal" id="modal-quienes">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Quiénes somos</h2>
+  <p>Somos una asociación sin ánimo de lucro que fomenta la devoción a la Virgen de los Ángeles, organizando eventos y peregrinaciones al Santuario de Torreciudad.</p>
+  <h3>Junta Directiva</h3>
+  <ul>
+    <li>Presidente: José Belinchón</li>
+    <li>Vicepresidente: Jaime Díaz-Espina Gutiérrez-Mijares</li>
+    <li>Tesorero: Juan Sebastián</li>
+    <li>Secretario: Fernando Ramos</li>
+    <li>Vocal 1ª: Pilar Prados</li>
+    <li>Vocal 2ª: Guadalupe Hermoso Mesa</li>
+  </ul>
+</div>
 
-            <label for="message">Mensaje:</label>
-            <textarea id="message" name="message" required></textarea>
+<!-- Modal Eventos -->
+<div class="modal" id="modal-eventos">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="color: #e37222;">Eventos 2025</h2>
+  <h3 style="color: #e37222; font-size: 20px;">Mayo</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-presentacion')"><span style="color: white;">Jueves 8</span> - <em style="color: white;">"Tras las huellas de Jesús: un camino por Tierra Santa"</em></a></li>
+    <li><a href="#" onclick="openModal('evento-torreciudad')">Jueves 15 - <em style="color: white;">"Encuentro en Torreciudad"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Junio</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-rosario')">Martes 10 - <em style="color: white;">"Rosario por la Paz"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Julio</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-juvenil')">Domingo 20 - <em style="color: white;">"Peregrinación Juvenil"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Septiembre</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-retiro')">Viernes 5 - <em style="color: white;">"Retiro espiritual"</em></a></li>
+    <li><a href="#" onclick="openModal('evento-familias')">13-15 - <em style="color: white;">"Encuentro de las Familias"</em></a></li>
+  </ul>
+  <h3 style="color: #e37222; font-size: 20px;">Noviembre</h3>
+  <ul>
+    <li><a href="#" onclick="openModal('evento-otono')">Miércoles 12 - <em style="color: white;">"Convivencia de otoño"</em></a></li>
+  </ul>
+</div>
 
-            <button type="submit">Enviar</button>
-        </form>
-    </section>
-</main>
+<!-- Modal Peregrinaciones -->
+<div class="modal" id="modal-peregrinaciones">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Peregrinaciones</h2>
+  <p>Organizamos distintas peregrinaciones a lo largo del año. Aquí publicaremos la información por años y destinos, incluyendo fotografías y testimonios.</p>
+</div>
 
-<footer>
-    <p>&copy; 2023 Asociación Amigos de Torreciudad en Málaga. Todos los derechos reservados.</p>
-</footer>
+<!-- Modal Registro -->
+<div class="modal" id="modal-registro">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Registro de Nuevos Socios</h2>
+  <form id="form-registro" onsubmit="enviarDatosRegistro(event)">
+    <label>DNI:</label><input type="text" name="dni" required><br>
+    <label>Nombre completo:</label><input type="text" name="nombre" required><br>
+    <label>Fecha de nacimiento:</label><input type="date" name="fecha" required><br>
+    <label>Estado civil:</label><input type="text" name="estado_civil" required><br>
+    <label>Profesión:</label><input type="text" name="profesion" required><br>
+    <label>Dirección fiscal:</label><input type="text" name="direccion" required><br>
+    <label>Correo electrónico:</label><input type="email" name="email" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" required><br><br>
+    <button type="submit">Ir a donación</button>
+  </form>
+</div>
+
+<!-- Modal Contacto -->
+<div class="modal" id="modal-contacto">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2>Contacto</h2>
+  <form id="form-contacto">
+    <label>Motivo de la consulta:</label>
+    <select name="motivo" id="motivo-consulta" required>
+      <option value="Eventos">Eventos</option>
+      <option value="Peregrinaciones">Peregrinaciones</option>
+      <option value="Donaciones">Donaciones</option>
+      <option value="Otro">Otro motivo</option>
+    </select><br><br>
+
+    <label>Descripción de la consulta:</label><br>
+    <textarea name="descripcion" id="descripcion-consulta" rows="4" cols="50" required></textarea><br><br>
+
+    <label>Nombre completo:</label><input type="text" name="nombre" id="nombre-consulta" required><br>
+    <label>Teléfono:</label><input type="tel" name="telefono" id="telefono-consulta" required><br><br>
+
+    <button type="submit">Enviar consulta</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('form-contacto').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const motivo = document.getElementById('motivo-consulta').value;
+    const descripcion = document.getElementById('descripcion-consulta').value;
+    const nombre = document.getElementById('nombre-consulta').value;
+    const telefono = document.getElementById('telefono-consulta').value;
+
+    const subject = encodeURIComponent("Consulta sobre: " + motivo);
+    const body = encodeURIComponent(`Motivo: ${motivo}
+
+Descripción:
+${descripcion}
+
+Nombre: ${nombre}
+Teléfono: ${telefono}`);
+
+    window.location.href = `mailto:torremal.forms@gmail.com?subject=${subject}&body=${body}`;
+    this.reset();
+    closeModal();
+  });
+</script>
+
+<script>
+function enviarDatosRegistro(e) {
+  e.preventDefault();
+  const form = document.getElementById('form-registro');
+  const formData = new FormData(form);
+  const nombre = formData.get('nombre');
+
+  fetch('https://script.google.com/macros/s/AKfycbyymSeg5rSaqckRX_Tz9ntLbYPPsdwVN_YmZRgVa3xCSCFBJXKAOaZ93QLPmpOZo7mtxA/exec', {
+    method: 'POST',
+    body: formData
+  });
+
+  emailjs.send('service_m41bqcv', 'template_9pu7nlg', {
+    nombre: nombre,
+    correo: formData.get('email')
+  }).then(() => {
+    alert(`Gracias por confiar en nosotros, ${nombre}. Te redirigimos a la página de donaciones.`);
+    form.reset();
+    closeModal();
+    window.open("https://torreciudad.org/amigos-de-torreciudad/", "_blank");
+  }).catch((error) => {
+    alert('Error al enviar el correo. Inténtalo de nuevo.');
+    console.error(error);
+  });
+}
+</script>
+
+<!-- Modal del evento del 8 de mayo -->
+<div class="modal" id="evento-presentacion">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="color: #e37222; text-align: center;">📍 Tras las huellas de Jesús: un camino por Tierra Santa</h2>
+  <p style="text-align: center;"><strong>🗓 Jueves 8 de mayo de 2025 | 🕐 13:30 h conferencia · 14:15 h cocktail</strong></p>
+  <p><strong>📍 Lugar:</strong> C. Duquesa de Parcent, 7, Distrito Centro, 29001 Málaga</p>
+  <p>Te invitamos a un encuentro único en el que reflexionaremos sobre la vida de Jesús en su tierra natal y la importancia de la peregrinación como camino espiritual. Tras una breve tertulia, compartiremos un cóctel distendido con los asistentes.</p>
+  <h3>Intervienen:</h3>
+  <ul>
+    <li><strong>D. José Belinchón</strong> – Presidente de TORREMAL</li>
+    <li><strong>Dña. Guadalupe Hermoso Mesa</strong> – Vocal 2ª de TORREMAL</li>
+    <li><strong>D. César Miravete</strong> – Doctor en Teología Dogmática y párroco de San Juan de Ávila (Zaragoza)</li>
+  </ul>
+  <p><strong>💶 Precio por persona:</strong> 20€</p>
+  <p><strong>ℹ️ Contacto:</strong> <a href="tel:+34630235333" style="color: #e37222;">José Belinchón – +34 630 23 53 33</a></p>
+  <div style="text-align: center;">
+    <button onclick="openModal('modal-form-presentacion')" style="padding: 10px 20px; margin-top: 10px; background-color: #e37222; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">📝 Apuntarse al evento</button>
+  </div>
+</div>
+
+<!-- Formulario inscripción evento -->
+
+<!-- Modal Calendario de Eventos -->
+<div class="modal" id="modal-calendario" style="max-width: 95vw; max-height: 90vh; overflow-y: auto;">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="text-align: center; color: #e37222;">Calendario de Eventos</h2>
+  <div id="calendario" style="padding: 10px; border-radius: 10px; height: 80vh; overflow: auto;">
+    <div id="torremal-calendar"></div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('torremal-calendar');
+    if (calendarEl) {
+      let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,listMonth'
+        },
+        events: [
+          { id: 'evento-presentacion', title: '📌 Tras las huellas de Jesús', start: '2025-05-08' },
+          { id: 'evento-torreciudad', title: 'Encuentro en Torreciudad', start: '2025-05-15' },
+          { id: 'evento-rosario', title: 'Rosario por la Paz', start: '2025-06-10' },
+          { id: 'evento-juvenil', title: 'Peregrinación Juvenil', start: '2025-07-20' },
+          { id: 'evento-retiro', title: 'Retiro espiritual', start: '2025-09-05' },
+          { id: 'evento-familias', title: 'Encuentro de las Familias', start: '2025-09-13', end: '2025-09-15' },
+          { id: 'evento-otono', title: 'Convivencia de otoño', start: '2025-11-12' }
+        ],
+        eventColor: '#e37222',
+        eventTextColor: '#fff',
+        eventClick: function(info) {
+          if (info.event.id) openModal(info.event.id);
+        }
+      });
+      calendar.render();
+    }
+  });
+</script>
+
+<div class="modal" id="modal-form-presentacion">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="color: #e37222; text-align: center;">📝 Inscripción – Tras las huellas de Jesús</h2>
+  <form id="form-evento-presentacion">
+    <label>Número de asistentes:</label>
+    <select id="numAsistentes" name="asistentes" required onchange="mostrarCamposAsistentes()">
+      <option value="">Selecciona</option>
+      <script>document.write(Array.from({length:10}, (_,i) => `<option value="${i+1}">${i+1}</option>`).join(''));</script>
+    </select><br><br>
+    <div id="camposNombres"></div>
+    <label>Correo electrónico:</label>
+    <input type="email" name="correo" required><br>
+    <label>Teléfono de contacto:</label>
+    <input type="tel" name="telefono" required><br><br>
+    <button type="submit">Enviar inscripción</button>
+  </form>
+</div>
+
+<script>
+function mostrarCamposAsistentes() {
+  const cantidad = parseInt(document.getElementById('numAsistentes').value);
+  const contenedor = document.getElementById('camposNombres');
+  contenedor.innerHTML = '';
+  for (let i = 1; i <= cantidad; i++) {
+    const label = document.createElement('label');
+    label.textContent = `Nombre completo asistente ${i}:`;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = `asistente${i}`;
+    input.required = true;
+    contenedor.appendChild(label);
+    contenedor.appendChild(input);
+    contenedor.appendChild(document.createElement('br'));
+  }
+}
+
+function enviarFormularioPresentacion(e) {
+  e.preventDefault();
+  const form = document.getElementById('form-evento-presentacion');
+  const data = new FormData(form);
+  const asistentes = data.get('asistentes');
+  const correo = data.get('correo');
+  const telefono = data.get('telefono');
+  let nombres = '';
+  for (let i = 1; i <= asistentes; i++) {
+    nombres += `Asistente ${i}: ${data.get(`asistente${i}`)}
+`;
+  }
+  const asunto = encodeURIComponent('Inscripción – Evento 8 de mayo');
+  const cuerpo = encodeURIComponent(`${nombres}
+Correo: ${correo}
+Teléfono: ${telefono}`);
+  window.location.href = `mailto:torremal.forms@gmail.com?subject=${asunto}&body=${cuerpo}`;
+  alert('Inscripción enviada correctamente. ¡Gracias por apuntarte al evento!');
+  closeModal();
+  form.reset();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('form-evento-presentacion');
+  if (form) form.addEventListener('submit', enviarFormularioPresentacion);
+});
+</script>
+  <!-- Modal Noticia Ampliada -->
+<div class="modal" id="modal-noticia-ampliada">
+  <button class="close-btn" onclick="closeModal()">✖</button>
+  <h2 style="text-align: center; color: #e37222;">📰 Noticia Destacada</h2>
+  <div style="text-align: center;">
+    <p id="titulo-noticia-ampliada" style="color: white; font-weight: bold; margin-bottom: 15px;"></p>
+    <img id="imagen-noticia-ampliada" src="" alt="Noticia ampliada" style="max-width: 100%; max-height: 80vh; border-radius: 10px;">
+  </div>
+</div>
+
+<!-- Script del Carrusel de Imágenes -->
+<script>
+  let slides = document.querySelectorAll(".carousel img");
+  let index = 0;
+  setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 5000);
+</script>
+
+<!-- Script Noticias y Modal -->
+<script>
+  const noticias = document.querySelectorAll(".noticias-carousel .noticia");
+  let noticiaIndex = 0;
+
+  setInterval(() => {
+    noticias[noticiaIndex].classList.remove("active");
+    noticias[noticiaIndex].style.opacity = 0;
+    noticiaIndex = (noticiaIndex + 1) % noticias.length;
+    noticias[noticiaIndex].classList.add("active");
+    noticias[noticiaIndex].style.opacity = 1;
+  }, 6000);
+
+  function openNoticiaModal() {
+    const img = noticias[noticiaIndex].getAttribute('src');
+    const altText = noticias[noticiaIndex].getAttribute('alt');
+    document.getElementById('imagen-noticia-ampliada').src = img;
+    document.getElementById('titulo-noticia-ampliada').innerText = altText;
+    openModal('modal-noticia-ampliada');
+  }
+
+  function openModal(id) {
+    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('overlay').classList.add('active');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeModal() {
+    document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    document.getElementById('overlay').classList.remove('active');
+    document.body.classList.remove('modal-open');
+  }
+</script>
 </body>
 </html>
-
